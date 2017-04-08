@@ -1,4 +1,4 @@
-# AthenaHacks 2017: let's talk aBOT
+# AthenaHacks 2017: let's talk aBOT it
 
 ### Overview
 We're building a chatbot with Node.js that integrates with Facebook Messenger.
