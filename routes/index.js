@@ -54,10 +54,8 @@ var Flickr = require("flickrapi"),
         secret: "ba5154c1f75e6918"
     };
 
-/*Flickr.authenticate(flickrOptions, function(error, flickr) {
-    // we can now use "flickr" as our API object
-}*/
 
+// Flickr API
 Flickr.tokenOnly(flickrOptions, function(error, flickr) {
     // we can now use "flickr" as our API object,
     // but we can only call public methods and access public data
