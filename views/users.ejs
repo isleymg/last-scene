@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en-US" xmlns="http://www.w3.org/1999/html">
+<head>
+    <!-- ==============================================
+    Title
+    =============================================== -->
+    <title>Last Scene</title>
+
+    <!-- ==============================================
+    CSS
+    =============================================== -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/bootstrap.daterangepicker/2/daterangepicker.css" />
+    <link href="https://fonts.googleapis.com/css?family=Oxygen" rel="stylesheet">
+    <link rel="stylesheet" href="stylesheets/style.css">
+    <script>
+        var c = document.getElementById("myCanvas");
+        var ctx = c.getContext("2d");
+        var img = new Image();
+        img.onload = function() {
+            ctx.drawImage(img, 0, 0);
+        };
+        img.src = 'https://cdn.sstatic.net/stackexchange/img/logos/so/so-icon.png';
+    </script>
+</head>
+<body>
+<div class="title">
+
+<h1> <%= title %> results found. </h1>
+
+</div>
+
+<div class="results">
+    <canvas id="myCanvas"></canvas>
+</div>
+
+
+</body>
+</html>
