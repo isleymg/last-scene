@@ -12,7 +12,8 @@ var Flickr = require("flickrapi"),
 
 
 router.post('/', function(req, res, next) {
-    var geocodeURL = "https://maps.googleapis.com/maps/api/geocode/json?address=" + req.location + "&key=" + google_maps_key;
+    console.log("REQ",req.body.location);
+    var geocodeURL = "https://maps.googleapis.com/maps/api/geocode/json?address=" + req.body.location + "&key=" + google_maps_key;
     var stuff = "";
     var longitude;
     var latitude;
@@ -20,10 +21,14 @@ router.post('/', function(req, res, next) {
     var request = require('request');
     // get request to google for coordinates
     request(geocodeURL, function (error, response, body) {
+        //console.log("*body",body);
         if (!error && response.statusCode == 200) {
+            console.log("body",body);
             var obj = JSON.parse(body);
             longitude = obj.results[0].geometry.location.lng; // FOR FLICKR API
             latitude = obj.results[0].geometry.location.lat; // FOR FLICKR API
+            console.log(longitude);
+            console.log(latitude);
             console.log('hellooooo');
 
             // change time+date to epoch/unix
@@ -37,15 +42,15 @@ router.post('/', function(req, res, next) {
             Flickr.tokenOnly(flickrOptions, function(error, flickr) {
                 flickr.photos.search({
                     // text: "red+panda"
-                    lat: 34.9683009,
-                    lon: 135.7727,
+                    lat: latitude,
+                    lon: longitude,
                     min_taken_date: 1491000000,
-                    max_taken_date: 1491713952
+                    max_taken_date: 1491713952,
                     // lat: latitude,
                     // lon: longitude,
                     // min_taken_date: endEpochTime,
                     // max_taken_date: startEpochTime,
-                    // radius: 10
+                    radius: 10
                 }, function(err, result) {
                     for (i=0;i<result.photos.photo.length; i++) {
                         pictureURLS[i] = "https://farm" + result.photos.photo[i].farm.toString() +

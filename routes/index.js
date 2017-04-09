@@ -3,7 +3,7 @@ var router = express.Router();
 var flickr = require("flickrapi");
 var google_maps_key = 'AIzaSyD1GPoQj-oO50V8JJJ01xRNVxwYb2WyQoU';
 var request = require("request");
-const cognitiveServices = require('cognitive-services');
+
 var Flickr = require("flickrapi"),
     flickrOptions = {
         api_key: "65655937b6264a3872c5a808c754747c",
