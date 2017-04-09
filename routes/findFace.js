@@ -9,14 +9,27 @@ var client = new oxford.Client(apikey);
 console.log("oxford face API");
 
 
-var myGroup = 'trumpdonald';
+var myGroup = 'yehkatie';
+var myName = 'Katie Yeh';
+var myPhotos = ['http://i.imgur.com/QhS7ESd.jpg', 'https://farm3.staticflickr.com/2844/33892801446_db372039ca_c.jpg'];
+var testURL = 'https://farm3.staticflickr.com/2844/33121006693_b89ee63178_c.jpg';
 
-// Promise = require('bluebird');
+// var A1_deleteGroup = function() {
+//
+//     return new Promise(function(resolve, reject) {
+//         GroupDelete(myGroup);
+//
+//         var result = 'A1_deleteGroup is done'
+//
+//         console.log(result)
+//         resolve(result);
+//     })
+// }
 
 var A_createGroup = function() {
 
     return new Promise(function(resolve, reject) {
-        GroupCreate(myGroup);
+        GroupCreate(myGroup, myName);
 
         var result = 'A_createGroup is done'
 
@@ -39,53 +52,97 @@ var B_display = function() {
     })
 }
 
-var C_addTrump = function() {
+var C_addLostPerson = function() {
 
     return new Promise(function(resolve, reject) {
-        addTrump(myGroup);
+        addLostPerson(myGroup, myName, myPhotos);
 
-        var result = 'C_addTrump is done'
+        var result = 'C_addLostPerson is done'
         console.log(result)
         resolve(result);
     })
 }
 
-var D = function() {
+
+var D_trainGroup = function() {
 
     return new Promise(function(resolve, reject) {
-        var result = 'D is done'
+        GroupTrain(myGroup);
+
+        var result = 'D_trainGroup is done'
         console.log(result)
         resolve(result);
     })
 }
+
+var E_mapPersonList = function() {
+
+    return new Promise(function(resolve, reject) {
+        mapPersonList(myGroup);
+
+        var result = 'E_mapPersonList is done'
+        console.log(result)
+        resolve(result);
+    })
+}
+
+var F_identifyURL = function(testURL) {
+
+    return new Promise(function(resolve, reject) {
+        identifyURL(testURL, myGroup);
+
+        var result = 'F_identifyURL is done'
+        console.log(result)
+        resolve(result);
+    })
+}
+
+
 
 A_createGroup().then(function(result) {
-        console.log("A_createGroup done, now B_display()");
-        return B_display();
-    })
-    .then(C_addTrump).catch(function (error) {
-        console.log(error);
-    });
+    console.log("A_createGroup done, now B_display()");
+    return B_display();
+})
+    // .then(B_display)
+    .then(C_addLostPerson())
+    .then(B_display)
+    .then(D_trainGroup)
+    .then(E_mapPersonList)
+    .then(F_identifyURL)
+    .catch(function (error) {
+    console.log(error);
+});
 
 console.log("AAAAAAAH");
 
 // GroupCreate(myGroup);
 // displayPersonList(myGroup);
-// addTrump(myGroup);
+// addLostPerson(myGroup);
 
 
 process.on("unhandledRejection", function(reason, promise) {
     console.log("Possibly Unhandled Rejection", JSON.stringify(reason));
 });
 
-function GroupCreate(groupId) {
-    client.face.personGroup.get(groupId)
+
+function GroupDelete(groupId) {
+    return client.face.personGroup.delete(groupId)
+        .then(function(response) {
+            console.log ("Deleting Group " + groupId);
+        })
+        .catch(function(error) {
+            console.log ("No need to delete")
+        })
+}
+
+function GroupCreate(groupId, someName) {
+    return client.face.personGroup.get(groupId)
         .then(function(response) {
             console.log ("Group Exists: " + groupId);
         })
         .catch(function(error) {
             if (error.code == 'PersonGroupNotFound') {
-                client.face.personGroup.create(groupId, "DT", "")
+                client.face.personGroup.create(groupId, someName, "")
                 console.log ("Created Group:" + groupId);
             } else {
                 console.log ("Ran into an error");
@@ -94,7 +151,7 @@ function GroupCreate(groupId) {
 }
 
 function displayPersonList(groupId) {
-    client.face.person.list(groupId)
+    return client.face.person.list(groupId)
         .catch(function(e) {
             console.log(e); // "something went wrong"
         }).then(function (response){
@@ -103,19 +160,14 @@ function displayPersonList(groupId) {
     });
 }
 
-function addTrump(groupId){
-    addPerson(groupId, {name: 'Donald Trump',
-        images: [
-            'https://upload.wikimedia.org/wikipedia/commons/thumb/d/d2/Donald_Trump_August_19%2C_2015_%28cropped%29.jpg/450px-Donald_Trump_August_19%2C_2015_%28cropped%29.jpg',
-            'http://static6.businessinsider.com/image/55918b77ecad04a3465a0a63/nbc-fires-donald-trump-after-he-calls-mexicans-rapists-and-drug-runners.jpg',
-            'http://cdn.bgr.com/2016/01/donald-trump.png',
-            'http://i2.cdn.cnn.com/cnnnext/dam/assets/151029092255-donald-trump-pout-large-169.jpg'
-        ]})
+function addLostPerson(groupId, nameLost, photosLost){
+    return addPerson(groupId, {name: nameLost,
+        images: photosLost})
 }
 
 function addPerson(groupId, person) {
     console.log('adding person(' + person.name + ')');
-    client.face.person.create(groupId, person.name)
+    return client.face.person.create(groupId, person.name)
         .then(function(response) {
             var personId = response.personId;
             var i;
@@ -127,5 +179,73 @@ function addPerson(groupId, person) {
         })
         .catch(function(error) {
             console.log(error);
+        })
+}
+
+function GroupTrain(groupId) {
+    return client.face.personGroup.trainingStart(groupId)
+        .catch(function(e) {
+            console.log(e);
+        }).then(function (response){
+        client.face.personGroup.trainingStatus(groupId)
+            .catch(function(e) {
+                console.log(e);
+            }).then(function (response){
+            console.log("Training Status:");
+            console.log(response);
+        });
+    });
+}
+
+
+function mapPersonList(groupId) {
+    return client.face.person.list(groupId)
+        .catch(function(e) {
+            console.log(e);
+        }).then(function (response){
+        idMap = [];
+        response.forEach(function(person) {
+            idMap[person.personId] = person;
+        });
+    });
+}
+
+
+function identifyURL(testUrl,groupId) {
+    return client.face.detect({url:testUrl, returnFaceId:true})
+        .then(function (response) {
+            if (response.length == 0) {
+                console.log("Response Blank");
+            } else {
+                var faceIds = [];
+                var faceMap = [];
+                response.forEach(function(face) {
+                    //console.log("Counting Faces In Image");
+                    faceIds.push(face.faceId);
+                    faceMap[face.faceId] = face;
+                });
+                //console.log(faceMap);
+                client.face.identify(faceIds, groupId)
+                    .then(function(response) {
+                        //console.log("Identifying Faces In Image");
+                        //console.log(response);
+                        response.forEach(function(face) {
+                            if (face.candidates && face.candidates.length > 0) {
+                                var topCandidate = face.candidates[0];
+                                faceMap[face.faceId]['person']  = idMap[topCandidate.personId];
+                                faceMap[face.faceId]['confidence']  = topCandidate.confidence;
+                            }
+                        });
+
+                        for (var faceId in faceMap) {
+                            //console.log("Mapping Faces 3");
+                            people.push(faceMap[faceId]);
+                            //console.log (faceMap[faceId]);
+                            var name = (faceMap[faceId].person && faceMap[faceId].person.name) || '<unknown>';
+
+                            console.log(name + ' @ ' + JSON.stringify(faceMap[faceId].faceRectangle));
+                        }
+                    });
+            }
         })
 }
