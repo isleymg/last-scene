@@ -12,7 +12,7 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/bootstrap.daterangepicker/2/daterangepicker.css" />
-
+    <link href="https://fonts.googleapis.com/css?family=Oxygen" rel="stylesheet">
     <link rel="stylesheet" href="stylesheets/style.css">
 
 </head>
@@ -36,8 +36,10 @@
                     <div class="row">
                         <div class="col-md-4 col-centered">
                             <div class="form-group">
-                                <label>How do they look like?</label>
-                                <input type="text" class="form-control" placeholder="Photo URL...">
+                                <label>What do they look like?</label>
+                                <input type="text" class="form-control" name="" id="imgName" value="" placeholder="Photo URL..."><br>
+                                <img name="imageHolder" id="imageHolder" src="http://www.simin.cl/wp-content/uploads/2015/02/Sin-Fotograf%C3%ADa.gif" height="300px" width="300px">
+                                <br><br>
                             </div>
                         </div>
                     </div>
@@ -86,6 +88,15 @@ SCRIPTS
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD1GPoQj-oO50V8JJJ01xRNVxwYb2WyQoU&libraries=places&callback=initAutocomplete"
         async defer></script></body>
 <script>
+    jQuery(document).ready(function($) {
+        console.log("in function");
+        $('#imgName').bind('input', function() {
+            $('#imageHolder').attr('src', $(this).val()); //concatinate path if required
+        });
+
+    });
+
+
     var placeSearch, autocomplete;
     var componentForm = {
         street_number: 'short_name',
