@@ -3,7 +3,7 @@ var router = express.Router();
 var flickr = require("flickrapi");
 // flickr key: 65655937b6264a3872c5a808c754747c
 var google_maps_key = 'AIzaSyD1GPoQj-oO50V8JJJ01xRNVxwYb2WyQoU';
-
+var request = require("request");
 
 
 
@@ -49,6 +49,27 @@ router.get('/', function(req, res, next) {
 });
 
 router.post('/', function(req, res, next) {
+    var geocodeURL = "https://maps.googleapis.com/maps/api/geocode/json?address=" + req.location + "&key=" + google_maps_key;
+    var stuff = "";
+
+    var request = require('request');
+    // get coordinates
+    request(geocodeURL, function (error, response, body) {
+        if (!error && response.statusCode == 200) {
+            var obj = JSON.parse(body);
+            var longitude = obj.results[0].geometry.location.lat; // FOR FLICKR API
+            var latitude = obj.results[0].geometry.location.lng; // FOR FLICKR API
+        }
+    });
+    console.log('whtfowifjowie');
+    // change time+date to epoch/unix
+    var temp = req.body.daterange.split("-");
+    var start = temp[0];
+    var end = temp[1];
+    var test = start + " "+ end;
+    var startEpochTime = new Date(start).getTime(); // FOR FLICKR API
+    var endEpochTime = new Date(end).getTime(); // FOR FLICKR API
+    res.send(startDateObj + " " + endDateObj);
 
 });
 
