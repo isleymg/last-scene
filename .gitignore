@@ -1,3 +1,7 @@
 node_modules
 .idea
+<<<<<<< HEAD
 package.json
+=======
+package.json
+>>>>>>> f2f428155af751ba58507831c022929a232d8812
