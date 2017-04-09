@@ -48,6 +48,10 @@ router.get('/', function(req, res, next) {
     res.render('index', { title: 'Express', date: edited_date});
 });
 
+router.post('/', function(req, res, next) {
+
+});
+
 var Flickr = require("flickrapi"),
     flickrOptions = {
         api_key: "65655937b6264a3872c5a808c754747c",
