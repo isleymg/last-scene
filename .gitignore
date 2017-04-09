@@ -1,3 +1,4 @@
 node_modules
 .idea
 package.json
+.idea/workspace.xml
