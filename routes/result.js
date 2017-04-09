@@ -116,20 +116,30 @@ router.post('/', function(req, res, next) {
             var startEpochTime = new Date(start).getTime() / 1000; // FOR FLICKR API
             var endEpochTime = new Date(end).getTime() / 1000; // FOR FLICKR API
 
-            Flickr.tokenOnly(flickrOptions, function(error, flickr) {
-                flickr.photos.search({
-                    // text: "red+panda"
+            var searchOptions = {};
+            if (req.body.name == "Katie Yeh" || req.body.name == "katie yeh" || req.body.name == "katie"){
+                searchOptions = {
+                    lat: latitude,
+                        lon: longitude,
+                    min_taken_date: 1491000000,
+                    max_taken_date: 1491713952,
+                    tags: 'katie'
+                }
+            }
+            else {
+                searchOptions = {
                     lat: latitude,
                     lon: longitude,
                     min_taken_date: 1491000000,
                     max_taken_date: 1491713952,
-                    tags: 'katie'
-                    // lat: latitude,
-                    // lon: longitude,
-                    // min_taken_date: endEpochTime,
-                    // max_taken_date: startEpochTime,
-                    // radius: 10
-                }, function(err, result) {
+                    tags: 'isley',
+                    user_id: 'blah'
+
+                }
+            }
+
+            Flickr.tokenOnly(flickrOptions, function(error, flickr) {
+                flickr.photos.search(searchOptions, function(err, result) {
                     for (i=0;i<result.photos.photo.length; i++) {
                         pictureURLS[i] = "https://farm" + result.photos.photo[i].farm.toString() +
                             ".staticflickr.com/" + result.photos.photo[i].server +"/"+ result.photos.photo[i].id +
