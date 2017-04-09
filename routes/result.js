@@ -44,8 +44,8 @@ router.post('/', function(req, res, next) {
                     // text: "red+panda"
                     lat: latitude,
                     lon: longitude,
-                    min_taken_date: 1491000000,
-                    max_taken_date: 1491713952,
+                    min_taken_date: startEpochTime,
+                    max_taken_date: endEpochTime,
                     // lat: latitude,
                     // lon: longitude,
                     // min_taken_date: endEpochTime,
