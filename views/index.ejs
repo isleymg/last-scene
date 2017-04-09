@@ -24,12 +24,12 @@
         <div class="jumbotron">
             <div class="splash">
                     <h1 style="margin-bottom:20px;">Last Scene</h1>
-                <form>
+                <form action="/" method="post" >
                     <div class="row">
                         <div class="col-md-4 col-centered">
                             <div class="form-group">
                                 <label>Who is missing?</label>
-                                <input type="text" class="form-control" placeholder="Jane Doe...">
+                                <input type="text" name="name" class="form-control" placeholder="Jane Doe...">
                             </div>
                         </div>
                     </div>
@@ -37,7 +37,7 @@
                         <div class="col-md-4 col-centered">
                             <div class="form-group">
                                 <label>What do they look like?</label>
-                                <input type="text" class="form-control" name="" id="imgName" value="" placeholder="Photo URL..."><br>
+                                <input type="text" name="img_url" class="form-control" name="" id="imgName" value="" placeholder="Photo URL..."><br>
                                 <img name="imageHolder" id="imageHolder" src="http://www.simin.cl/wp-content/uploads/2015/02/Sin-Fotograf%C3%ADa.gif" height="300px" width="300px">
                                 <br><br>
                             </div>
@@ -48,7 +48,7 @@
                             <div class="form-group">
                                 <label>Where was their last scene?</label>
                                 <div id="locationField">
-                                    <input id="autocomplete" class="form-control" style="color: black;"
+                                    <input id="autocomplete" name="location" class="form-control" style="color: black;"
                                            placeholder="Address..."
                                            onFocus="geolocate()" type="text"></input>
                                 </div>
