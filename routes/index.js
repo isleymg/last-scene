@@ -2,6 +2,8 @@ var express = require('express');
 var router = express.Router();
 var flickr = require("flickrapi");
 // flickr key: 65655937b6264a3872c5a808c754747c
+var google_maps_key = 'AIzaSyD1GPoQj-oO50V8JJJ01xRNVxwYb2WyQoU';
+
 
 
 
@@ -27,7 +29,6 @@ Flickr.tokenOnly(flickrOptions, function(error, flickr) {
     // if (error) {
     //     throw new Error(error);
     // }
-    console.log("here");
     flickr.photos.search({
         // text: "red+panda"
         lat: 34.9683009,
@@ -37,24 +38,20 @@ Flickr.tokenOnly(flickrOptions, function(error, flickr) {
 
 
     }, function(err, result) {
-        console.log("**", result.photos.photo);
         var pictureURLS = [];
         for (i=0;i<result.photos.photo.length; i++) {
             pictureURLS[i] = "https://farm" + result.photos.photo[i].farm.toString() +
                 ".staticflickr.com/" + result.photos.photo[i].server +"/"+ result.photos.photo[i].id +
                 "_" + result.photos.photo[i].secret+".jpg";
-            console.log(pictureURLS[i]);
 
         }
 
         if(err) { throw new Error(err); }
         // do something with result
-        console.log("blah");
     });
 
 
 });
-
 
 
 module.exports = router;
