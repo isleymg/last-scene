@@ -16,6 +16,6 @@ module.exports = router;
 //display imageData array
 //something like this <a href="{{image_b}}"><img src="{{image_s}}" alt="{{title}}" /></a>
 
-var imageData = new Array();
-var images = document.createElement("IMG");
+//var imageData = new Array();
+//var images = document.createElement("IMG");
 
